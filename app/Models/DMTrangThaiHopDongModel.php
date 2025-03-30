@@ -5,17 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class DMQuyenModel extends Model
+class DMTrangThaiHopDongModel extends Model
 {
     use HasFactory;
-    protected $fillable = ['ten_quyen'];
-    protected $table = 'dm_quyen';
+    protected $table = 'dm_trangthaihopdong';
     protected $primaryKey = 'id';
     protected $keytype = 'int';
-    public $incrementing = true;
+    public $incrementing = false;
     public $timestamps = false;
-    public function TaiKhoan()
+    public function HopDong()
     {
-        return $this->hasMany(TaiKhoanModel::class, 'id_quyen', 'id');
+        return $this->hasMany(HopDongModel::class, 'id', 'id_trang_thai');
     }
 }
