@@ -46,14 +46,14 @@ class NhanVienController extends Controller
     {
         $data=[];
         $data['chuc_vus'] = DMChucVuModel::all();
-        return view('Quan_ly_nhan_vien.them_nhan_vien',$data);
+        return view('Quan_ly_nhan_vien.them_nv',$data);
     }
     public function viewSua(Request $request)
     {
         $data=[];
         $data['chuc_vus'] = DMChucVuModel::all();
         $data['nhan_vien'] = NhanVienModel::find($request->id);
-        return view('Quan_ly_nhan_vien.sua_nhan_vien',$data);
+        return view('Quan_ly_nhan_vien.sua_nv',$data);
     }
     public function xlThem(Request $request){
         $last_nhan_vien = NhanVienModel::orderBy('id','DESC')->first();

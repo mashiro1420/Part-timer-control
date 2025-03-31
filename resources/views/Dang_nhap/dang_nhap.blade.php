@@ -8,33 +8,34 @@
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 	<link rel="stylesheet" type="text/css" href="{{ asset('/css/dang_nhap.css') }}">
 </head>
-<body style="background-image: url('{{ asset('/imgs/signin_bg.jpg') }}')">
-	<div class="container" id="signin_container">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card mt-5">
-                    <div class="card-body">
-                        <h3 class="card-title text-center">
-							<i class="fa-solid fa-paw"></i>
-							Đăng nhập
-							<i class="fa-solid fa-paw"></i>
-						</h3>
-                        <form>
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Tài khoản</label>
-                                <input type="text" class="form-control" id="tai_khoan" name="tai_khoan" placeholder="Nhập tài khoản của bạn">
-                            </div>
-                            <div class="mb-3">
-                                <label for="mat_khau" class="form-label">Mật khẩu</label>
-                                <input type="password" class="form-control" id="mat_khau" placeholder="Nhập mật khẩu của bạn">
-                            </div>
-							<div class="button_container d-flex justify-content-center align-items-center">
-								<button type="submit" class="btn btn-warning w-50">Đăng nhập</button>
-							</div>
-                        </form>
-                    </div>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>ĐĂNG NHẬP</h1>
+            <div class="alert alert-info">
+                <div class="alert-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="16" x2="12" y2="12"></line>
+                        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                    </svg>
                 </div>
+                <div>Nếu đây là lần đầu tiên bạn đăng nhập hãy đổi mật khẩu</div>
             </div>
+            
+            <form>
+                <div class="form-group">
+                    <label for="tai_khoan">Tài khoản</label>
+                    <input type="text" id="tai_khoan" placeholder="Nhập tài khoản của bạn">
+                </div>
+                
+                <div class="form-group">
+                    <label for="mat_khau">Mật khẩu</label>
+                    <input type="mat_khau" id="mat_khau" placeholder="Nhập mật khẩu của bạn">
+                    <a href="#" class="forgot-password">Quên mật khẩu?</a>
+                </div>           
+                <button type="submit" class="btn btn-primary">Đăng nhập</button>
+            </form>
         </div>
     </div>
 </body>
