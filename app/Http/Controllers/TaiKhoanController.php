@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\DMQuyenModel;
 use App\Models\TaiKhoanModel;
+use App\Models\NhanVienModel;
 use Illuminate\Http\Request;
 
 class TaiKhoanController extends Controller
@@ -55,5 +56,20 @@ class TaiKhoanController extends Controller
         $tai_khoan->save();
         session()->flash('bao_loi', 'Cập nhật quyền thành công');
         return redirect()->route('ql_tk')->with('thanh_cong','Lưu thành công');
+    }
+
+    public function viewThem()
+    {
+        $data = [];
+        $data['quyens'] = DMQuyenModel::all();
+        $data['nhan_viens'] = NhanVienModel::all();
+        return view('Quan_ly_tai_khoan.them_tk', $data);
+    }
+    public function viewSua(Request $request)
+    {
+        $data = [];
+        $data['quyens'] = DMQuyenModel::all();
+        $data['nhan_viens'] = NhanVienModel::all();
+        return view('Quan_ly_tai_khoan.sua_tk', $data);
     }
 }
