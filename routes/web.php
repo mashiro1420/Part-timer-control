@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DangNhapController;
+use App\Http\Controllers\TaiKhoanController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,3 +21,5 @@ Route::get('/', function () {
 Route::get('dang_nhap',[DangNhapController::class, 'viewDangNhap'])->name('dang_nhap');
 Route::post('xl_dang_nhap',[DangNhapController::class, 'login']);
 Route::get('xl_dang_xuat',[DangNhapController::class, 'logout']);
+
+Route::get('ql_tk',[TaiKhoanController::class,'viewQuanLy'])->name('ql_tk');
