@@ -1,0 +1,30 @@
+body {
+    /* background-image: url("{{ asset('/imgs/signin_bg.jpg') }}"); */
+    background-size: cover;
+    background-position: center;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.card {
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-title {
+    font-weight: bold;
+    color: #343a40;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
