@@ -12,7 +12,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        $schedule->command('app:check-hop-dong-status')->dailyAt('09:00');
+        $schedule->command('app:check-hop-dong-status')->everyMinute();
     }
 
     /**

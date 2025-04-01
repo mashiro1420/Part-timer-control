@@ -17,11 +17,11 @@ class TaiKhoanModel extends Model
 
     public function NhanVien()
     {
-        return $this->belongsTo(NhanVienModel::class);
+        return $this->belongsTo(NhanVienModel::class,'id_nhan_vien');
     }
     public function Quyen()
     {
-        return $this->belongsTo(DMQuyenModel::class);
+        return $this->belongsTo(DMQuyenModel::class,'id_quyen');
     }
 
 }

@@ -18,6 +18,14 @@ class DangNhapCheck
         if (!$request->session()->has('tai_khoan')) {
             return redirect()->route('dang_nhap')->with('error', 'Cần phải đăng nhập mới có thể truy cập.');
         }
+        $quyen = session('quyen');
+        if ($quyen == 'Admin') {
+            return $next($request);
+        }
+        $trang_ql = ['ql_hd','ql_nv'];
+        if ($quyen == 'Quản lý' && !in_array($request->path(), $trang_ql)) {
+            return redirect()->route('ql_nv')->with('error', 'Không có quyền truy cập.');
+        }
         return $next($request);
     }
 }

@@ -4,7 +4,7 @@
     <title>Quản lý tài khoản</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="{{ asset('/css/ql_tk.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/ql_tk.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
@@ -15,23 +15,24 @@
         <!-- Search Section -->
         <div class="search-section">
             <h4 class="mb-3">Tìm kiếm tài khoản</h4>
-            <form>
+            <form action="{{ route('ql_tk') }}" method="get">
+                @csrf
                 <div class="row g-3">
                     <div class="col-md-4">
-                        <label for="tai_khoan" class="form-label">Tên người dùng</label>
-                        <input type="text" class="form-control" id="tai_khoan" placeholder="Nhập tên người dùng">
+                        <label for="tai_khoan" class="form-label">Tên tài khoản</label>
+                        <input type="text" class="form-control" name="tai_khoan" placeholder="Nhập tên tài khoản">
                     </div>
                     <div class="col-md-4">
-                        <label for="id_nhan_vien" class="form-label">Mã nhân viên</label>
-                        <input type="text" class="form-control" id="id_nhan_vien" placeholder="Nhập mã nhân viên">
+                        <label for="nhan_vien" class="form-label">Họ tên</label>
+                        <input type="text" class="form-control" name="ho_ten" placeholder="Nhập họ tên nhân viên">
                     </div>
                     <div class="col-md-4">
                         <label for="id_quyen" class="form-label">Quyền</label>
-                        <select class="form-select" id="id_quyen">
+                        <select class="form-select" name="id_quyen">
                             <option value="">Tất cả quyền</option>
-                            <option value="">Quản lý</option>
-                            <option value="">Nhân viên</option>
-                            <option value="">Admin</option>
+                            @foreach ($quyens as $quyen)
+                                <option value="{{ $quyen->id }}">{{ $quyen->ten_quyen }}</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>
@@ -56,84 +57,28 @@
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Tên người dùng</th>
-                            <th scope="col">Mã nhân viên</th>
+                            <th scope="col">STT</th>
+                            <th scope="col">Tài khoản</th>
+                            <th scope="col">Tên nhân viên</th>
                             <th scope="col">Quyền</th>
                             <th scope="col" class="text-center">Thao tác</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Nguyễn Văn A</td>
-                            <td>NV001</td>
-                            <td>Quản lý</td>
-                            <td class="text-center">
-                                <button class="btn btn-sm btn-primary action-btn">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="btn btn-sm btn-danger action-btn">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Trần Thị B</td>
-                            <td>NV002</td>
-                            <td>Nhân viên</td>
-                            <td class="text-center">
-                                <button class="btn btn-sm btn-primary action-btn">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="btn btn-sm btn-danger action-btn">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>Lê Văn C</td>
-                            <td>NV003</td>
-                            <td>Nhân viên</td>
-                            <td class="text-center">
-                                <button class="btn btn-sm btn-primary action-btn">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="btn btn-sm btn-danger action-btn">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">4</th>
-                            <td>Phạm Thị D</td>
-                            <td>NV004</td>
-                            <td>Admin</td>
-                            <td class="text-center">
-                                <button class="btn btn-sm btn-primary action-btn">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="btn btn-sm btn-danger action-btn">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">5</th>
-                            <td>Hoàng Văn E</td>
-                            <td>NV005</td>
-                            <td>Admin</td>
-                            <td class="text-center">
-                                <button class="btn btn-sm btn-primary action-btn">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="btn btn-sm btn-danger action-btn">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </td>
-                        </tr>
+                        @foreach ($tai_khoans as $tai_khoan)
+                        <?php $count++?>
+                            <tr>
+                                <th scope="row">{{$count}}</th>
+                                <td>{{$tai_khoan->tai_khoan}}</td>
+                                <td>{{!empty($tai_khoan->NhanVien->ho_ten)?$tai_khoan->NhanVien->ho_ten:""}}</td>
+                                <td>{{!empty($tai_khoan->Quyen->ten_quyen)?$tai_khoan->Quyen->ten_quyen:""}}</td>
+                                <td class="text-center">
+                                    <a class="btn btn-sm btn-primary action-btn" href="{{route('sua_tk',['id' => $tai_khoan->tai_khoan])}}">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>

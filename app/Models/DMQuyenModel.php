@@ -16,6 +16,6 @@ class DMQuyenModel extends Model
     public $timestamps = false;
     public function TaiKhoan()
     {
-        return $this->hasMany(TaiKhoanModel::class, 'id_quyen', 'id');
+        return $this->hasMany(TaiKhoanModel::class, 'id_quyen');
     }
 }

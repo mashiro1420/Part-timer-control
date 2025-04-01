@@ -19,7 +19,6 @@ class DangNhapController extends Controller
 	{
 			$tai_khoan = $request->tai_khoan;
 			$mat_khau = md5($request->mat_khau);
-			dump(TaiKhoanModel::all());
 			$nguoi_dung = TaiKhoanModel::find($tai_khoan);
 			session()->put('bao_loi', '');
 			if (empty($nguoi_dung)) {
@@ -30,25 +29,17 @@ class DangNhapController extends Controller
 					} else {
 							$request->session()->put('bao_loi', '');
 							$request->session()->put('tai_khoan', $tai_khoan);
-							$request->session()->put('id_quyen', $nguoi_dung->id_quyen);
+							$request->session()->put('quyen', $nguoi_dung->Quyen->ten_quyen);
 					}
 			}
 		if (session('bao_loi') == '') {
-			// if(session('id_quyen') == '1') {
-			// 	return redirect()->route('ql_nv');
-			// }
-			// 	elseif (session('id_quyen') == '3') {
-			// 			return redirect()->route('ql_nv');
-			// 	}
-			// 	elseif (session('id_quyen') == '2') {
-			// 			return redirect()->route('ql_nv');
-			// 	}
-			// else{
-			// 	return redirect()->route('dang_nhap');
-			// }
+			if(session('quyen') == 'Admin') return redirect()->route('ql_tk');
+				
+			elseif(session('quyen') == 'Quản lý')return redirect()->route('ql_nv');
+			// else return redirect()->route('ql_nv');
 			
 		} else {
-				// return redirect()->route('dang_nhap');
+				return redirect()->route('dang_nhap');
 		}
 	}
 	public function logout(){

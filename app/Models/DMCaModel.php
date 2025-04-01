@@ -14,4 +14,8 @@ class DMCaModel extends Model
     protected $keytype = 'int';
     public $incrementing = true;
     public $timestamps = false;
+    public function NhanVien()
+    {
+        return $this->hasMany(NhanVienModel::class, 'ca_mac_dinh', 'id');
+    }
 }

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="{{ asset('/css/ql_hd.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/ql_hd.css') }}">
 </head>
 <body>
     <!-- Navbar -->
@@ -16,24 +16,28 @@
         <!-- Search Section -->
         <div class="search-section">
             <h4 class="mb-3">Tìm kiếm hợp đồng</h4>
-            <form>
+            <form action="{{ route('ql_hd') }}" method="get">
+                @csrf
                 <div class="row g-3">
                     <div class="col-md-3">
-                        <label for="employeeId" class="form-label">Mã nhân viên</label>
-                        <input type="text" class="form-control" id="employeeId" placeholder="Nhập mã nhân viên">
+                        <label for="id_nhan_vien_tk" class="form-label">Mã nhân viên</label>
+                        <input type="text" class="form-control" name="id_nhan_vien_tk" value="{{ !empty($id_nhan_vien_tk)?$id_nhan_vien_tk:"" }}" placeholder="Nhập mã nhân viên">
                     </div>
                     <div class="col-md-3">
-                        <label for="startDate" class="form-label">Ngày bắt đầu</label>
-                        <input type="date" class="form-control" id="startDate">
+                        <label for="tu_ngay_tk" class="form-label">Ngày bắt đầu</label>
+                        <input type="date" class="form-control" name="tu_ngay_tk" value="{{ !empty($tu_ngay_tk)?$tu_ngay_tk:"" }}">
                     </div>
                     <div class="col-md-3">
-                        <label for="endDate" class="form-label">Ngày kết thúc</label>
-                        <input type="date" class="form-control" id="endDate">
+                        <label for="den_ngay_tk" class="form-label">Ngày kết thúc</label>
+                        <input type="date" class="form-control" name="den_ngay_tk" value="{{ !empty($den_ngay_tk)?$den_ngay_tk:"" }}">
                     </div>
                     <div class="col-md-3">
-                        <label for="state" class="form-label">Trạng thái</label>
-                        <select class="form-select" id="state">
+                        <label for="trang_thai_tk" class="form-label">Trạng thái</label>
+                        <select class="form-select" name="trang_thai_tk">
                             <option value="">Tất cả trạng thái</option>
+                            @foreach ($trang_thais as $trang_thai)
+                                <option value="{{ $trang_thai->id }}" {{ !empty($trang_thai_tk)&&$trang_thai_tk==$trang_thai->id?"selected":"" }}>{{ $trang_thai->ten_trang_thai }}</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>
@@ -44,7 +48,7 @@
                     <button type="reset" class="btn btn-outline-secondary">
                         <i class="fas fa-sync-alt me-1"></i> Làm mới
                     </button>
-                    <a href="{{url('them_hd')}}" class="btn btn-success ms-auto">
+                    <a href="{{route('them_hd')}}" class="btn btn-success ms-auto">
                         <i class="fas fa-plus me-1"></i> Thêm mới
                     </a>
                 </div>
@@ -68,86 +72,42 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th scope="row">HD001</th>
-                            <td>NV001</td>
-                            <td>01/01/2024</td>
-                            <td>31/12/2024</td>
-                            <td><span class="badge badge-infinity">Vô thời hạn</span></td>
-                            <td><a href="#" class="file-link"><i class="fas fa-file-pdf me-1"></i>HD_NV001.pdf</a></td>
-                            <td class="text-center">
-                                <button class="btn btn-sm btn-primary action-btn">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="btn btn-sm btn-danger action-btn">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">HD002</th>
-                            <td>NV002</td>
-                            <td>15/02/2024</td>
-                            <td>15/02/2025</td>
-                            <td><span class="badge badge-active">Đang có hiệu lực</span></td>
-                            <td><a href="#" class="file-link"><i class="fas fa-file-pdf me-1"></i>HD_NV002.pdf</a></td>
-                            <td class="text-center">
-                                <button class="btn btn-sm btn-primary action-btn">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="btn btn-sm btn-danger action-btn">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">HD003</th>
-                            <td>NV003</td>
-                            <td>01/03/2024</td>
-                            <td>-</td>
-                            <td><span class="badge badge-pending">Chưa có hiệu lực</span></td>
-                            <td><a href="#" class="file-link"><i class="fas fa-file-pdf me-1"></i>HD_NV003.pdf</a></td>
-                            <td class="text-center">
-                                <button class="btn btn-sm btn-primary action-btn">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="btn btn-sm btn-danger action-btn">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">HD004</th>
-                            <td>NV004</td>
-                            <td>01/01/2023</td>
-                            <td>31/12/2023</td>
-                            <td><span class="badge badge-expired">Hết hiệu lực</span></td>
-                            <td><a href="#" class="file-link"><i class="fas fa-file-pdf me-1"></i>HD_NV004.pdf</a></td>
-                            <td class="text-center">
-                                <button class="btn btn-sm btn-primary action-btn">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="btn btn-sm btn-danger action-btn">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">HD005</th>
-                            <td>NV005</td>
-                            <td>15/03/2024</td>
-                            <td>15/09/2024</td>
-                            <td><span class="badge badge-active">Đang có hiệu lực</span></td>
-                            <td><a href="#" class="file-link"><i class="fas fa-file-pdf me-1"></i>HD_NV005.pdf</a></td>
-                            <td class="text-center">
-                                <button class="btn btn-sm btn-primary action-btn">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="btn btn-sm btn-danger action-btn">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </td>
-                        </tr>
+                        @foreach ($hop_dongs as $hop_dong)
+                        <?php 
+                        switch ($hop_dong->id_trang_thai) {
+                            case 1:
+                                $badge = "infinity";
+                                break;
+                            case 2:
+                                $badge = "active";
+                              break;
+                            case 3:
+                                $badge = "expired";
+                              break;
+                            default:
+                                $badge = "pending";
+                          } ?>
+                            <tr>
+                                <th scope="row">{{$hop_dong->id_hop_dong}}</th>
+                                <td>{{$hop_dong->id_nhan_vien." - ".$hop_dong->NhanVien->ho_ten}}</td>
+                                <td>{{$hop_dong->tu_ngay}}</td>
+                                <td>{{$hop_dong->den_ngay}}</td>
+                                <td><span class="badge badge-{{$badge}}">{{$hop_dong->TrangThai->ten_trang_thai}}</span></td>
+                                @if (!empty($hop_dong->link_hop_dong))
+                                    <td><a href="{{ asset('Hop_dong_data'.$hop_dong->link_hop_dong) }}" download class="file-link"><i class="fas fa-file-pdf me-1"></i>Tải xuống</a></td>
+                                @else
+                                    <td>Không có file</td>
+                                @endif
+                                <td class="text-center">
+                                    <a class="btn btn-sm btn-primary action-btn" href="{{route('sua_hd',['id' => $hop_dong->id_hop_dong])}}">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a class="btn btn-sm btn-danger action-btn" href="{{route('xoa_hd',['id' => $hop_dong->id_hop_dong])}}">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>

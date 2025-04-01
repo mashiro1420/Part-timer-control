@@ -14,40 +14,37 @@ class TaiKhoanController extends Controller
         $data=[];
         $data['quyen'] = 
         $query = TaiKhoanModel::query()->select('*');
-        // if($request->has('tk_tai_khoan')&& !empty($request->tk_tai_khoan)){
-        //     $query = $query->where('tai_khoan', 'like', '%'.$request->tk_tai_khoan.'%');
-        //     $data['tk_tai_khoan'] = $request->tk_tai_khoan;
-        // }
-        // if($request->has('tk_quyen')&& !empty($request->tk_quyen)){
-        //     $query = $query->where('id_quyen', '=', $request->tk_quyen);
-        //     $data['tk_quyen'] = $request->tk_quyen;
-        // }
-        // if($request->has('tk_ma_hoc_sinh')&& !empty($request->tk_ma_hoc_sinh)){
-        //     $query = $query->where('id_hoc_sinh', 'like', '%'.$request->tk_ma_hoc_sinh.'%');
-        //     $data['tk_ma_hoc_sinh'] = $request->tk_ma_hoc_sinh;
-        // }
-        // if($request->has('tk_nhan_vien')&& !empty($request->tk_nhan_vien)){
-        //     $query = $query->where('id_nhan_vien', 'like', '%'.$request->tk_nhan_vien.'%');
-        //     $data['tk_nhan_vien'] = $request->tk_nhan_vien;
-        // }
+        if($request->has('tai_khoan')&& !empty($request->tai_khoan)){
+            $query = $query->where('tai_khoan', 'like', '%'.$request->tai_khoan.'%');
+            $data['tai_khoan'] = $request->tai_khoan;
+        }
+        if($request->has('id_quyen')&& !empty($request->id_quyen)){
+            $query = $query->where('id_quyen', '=', $request->id_quyen);
+            $data['id_quyen'] = $request->id_quyen;
+        }
+        if($request->has('ho_ten')&& !empty($request->ho_ten)){
+            $query = $query->where('id_hoc_sinh', 'like', '%'.$request->ho_ten.'%');
+            $data['ho_ten'] = $request->ho_ten;
+        }
         $data['tai_khoans'] = $query->get();
         $data['quyens'] = DMQuyenModel::all();
+        $data['count']=0;
         return view('Quan_ly_tai_khoan.quan_ly_tai_khoan',$data);
     }
     public function xlDoiMK(Request $request){
         $tai_khoan = TaiKhoanModel::find($request->tai_khoan);
-        if($tai_khoan->mat_khau != md5($request->mat_khau_cu)){
+        if($tai_khoan->mat_khau != md5($request->mk_cu)){
             session()->flash('bao_loi', 'Mật khẩu không đúng');
-            return redirect()->route('cai_dat_tk');
+            return redirect()->route('doi_mk',['id' => $tai_khoan->tai_khoan]);
         }
-        if($request->mat_khau_moi != $request->xac_nhan){
+        if($request->mk_moi != $request->mk_lai){
             session()->flash('bao_loi', 'Mật khẩu xác nhận không giống với mật khẩu mới');
-            return redirect()->route('cai_dat_tk');
+            return redirect()->route('doi_mk',['id' => $tai_khoan->tai_khoan]);
         }
-        $tai_khoan->mat_khau = md5($request->mat_khau_moi);
+        $tai_khoan->mat_khau = md5($request->mk_moi);
         $tai_khoan->save();
         session()->flash('bao_loi', 'Cập nhật mật khẩu thành công');
-        return redirect()->route('cai_dat_tk')->with('thanh_cong','Lưu thành công');
+        return redirect()->route('doi_mk',['id' => $tai_khoan->tai_khoan]);
         
     }
     public function xlPhanQuyen(Request $request){
@@ -55,21 +52,20 @@ class TaiKhoanController extends Controller
         $tai_khoan->id_quyen = $request->quyen;
         $tai_khoan->save();
         session()->flash('bao_loi', 'Cập nhật quyền thành công');
-        return redirect()->route('ql_tk')->with('thanh_cong','Lưu thành công');
+        return redirect()->route('ql_tk');
     }
 
-    public function viewThem()
-    {
-        $data = [];
-        $data['quyens'] = DMQuyenModel::all();
-        $data['nhan_viens'] = NhanVienModel::all();
-        return view('Quan_ly_tai_khoan.them_tk', $data);
-    }
     public function viewSua(Request $request)
     {
         $data = [];
+        $data['tai_khoan'] = TaiKhoanModel::find($request->id);
         $data['quyens'] = DMQuyenModel::all();
-        $data['nhan_viens'] = NhanVienModel::all();
         return view('Quan_ly_tai_khoan.sua_tk', $data);
+    }
+    public function viewDoiMK(Request $request)
+    {
+        $data = [];
+        $data['tai_khoan'] = TaiKhoanModel::find($request->id);
+        return view('Quan_ly_tai_khoan.doi_mk', $data);
     }
 }

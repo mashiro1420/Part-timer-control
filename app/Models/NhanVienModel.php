@@ -19,7 +19,7 @@ class NhanVienModel extends Model
     public $timestamps = false;
     public function ChucVu()
     {
-        return $this->belongsTo(DMChucVuModel::class);
+        return $this->belongsTo(DMChucVuModel::class,'id_chuc_vu');
     }
     public function TaiKhoan()
     {
@@ -28,5 +28,9 @@ class NhanVienModel extends Model
     public function HopDong()
     {
         return $this->hasMany(HopDongModel::class, 'id', 'id_nhan_vien');
+    }
+    public function Ca()
+    {
+        return $this->belongsTo(DMCaModel::class,'ca_mac_dinh');
     }
 }

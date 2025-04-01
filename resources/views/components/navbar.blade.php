@@ -30,5 +30,15 @@
                 </li>
             </ul>
         </div>
+        <div>
+            <a class="btn btn-outline-dark ms-3" href="{{ route('doi_mk',['id'=>session('tai_khoan')]) }}">
+              <i class="fa-solid fa-gear me-1"></i>
+            </a>
+          </div>
+          <div>
+            <a class="btn btn-outline-dark ms-3" href="{{ url('xl_dang_xuat') }}">
+              <i class="fas fa-sign-out-alt me-1"></i>
+            </a>
+        </div>
     </div>
 </nav>

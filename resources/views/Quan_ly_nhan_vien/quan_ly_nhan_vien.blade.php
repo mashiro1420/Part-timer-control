@@ -4,7 +4,7 @@
     <title>Quản lý nhân viên</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="{{ asset('/css/ql_nv.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/ql_nv.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
@@ -15,60 +15,56 @@
     <div class="container">
         <div class="search-section">
             <h4 class="mb-3">Tìm kiếm nhân viên</h4>
-            <form>
+            <form action="{{ route('ql_nv') }}">
+                @csrf
                 <div class="row g-3 mb-3">
                     <div class="col-md-4">
-                        <label for="searchHoTen" class="form-label">Họ tên</label>
-                        <input type="text" class="form-control" id="searchHoTen" placeholder="Nhập họ tên">
+                        <label for="ho_ten_tk" class="form-label">Họ tên</label>
+                        <input type="text" class="form-control" name="ho_ten_tk" value="{{ !empty($ho_ten_tk)?$ho_ten_tk:"" }}" placeholder="Nhập họ tên">
                     </div>
                     <div class="col-md-4">
-                        <label for="searchCaMacDinh" class="form-label">Ca mặc định</label>
-                        <select class="form-select" id="searchCaMacDinh">
+                        <label for="ca_tk" class="form-label">Ca mặc định</label>
+                        <select class="form-select" name="ca_tk">
                             <option value="">Tất cả</option>
-                            <option value="Ca Sáng">Ca Sáng</option>
-                            <option value="Ca Chiều">Ca Chiều</option>
-                            <option value="Ca Tối">Ca Tối</option>
-                            <option value="Hành chính">Hành chính</option>
+                            @foreach ($cas as $ca)
+                                <option value="{{ $ca->id }}" {{!empty($ca_tk)&&$ca_tk==$ca->id?"selected":""}}>{{ $ca->ten_ca }}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="col-md-4">
-                        <label for="searchGioiTinh" class="form-label">Giới tính</label>
-                        <select class="form-select" id="searchGioiTinh">
+                        <label for="gioi_tinh_tk" class="form-label">Giới tính</label>
+                        <select class="form-select" name="gioi_tinh_tk">
                             <option value="">Tất cả</option>
-                            <option value="Nam">Nam</option>
-                            <option value="Nữ">Nữ</option>
-                            <option value="Khác">Khác</option>
+                            <option value="Nam" {{!empty($gioi_tinh_tk)&&$gioi_tinh_tk=="Nam"?"selected":""}}>Nam</option>
+                            <option value="Nữ" {{!empty($gioi_tinh_tk)&&$gioi_tinh_tk=="Nữ"?"selected":""}}>Nữ</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-2">
+                        <label for="ngay_vao_lam_tk" class="form-label">Ngày vào làm</label>
+                        <input type="date" class="form-control" value="{{ !empty($ngay_vao_lam_tk)?$ngay_vao_lam_tk:"" }}" name="ngay_vao_lam_tk">
+                    </div>
+                    <div class="col-md-2">
+                        <label for="trang_thai_tk" class="form-label">Trạng thái</label>
+                        <select class="form-select" name="trang_thai_tk">
+                            <option value="">Tất cả</option>
+                            <option value="active" {{!empty($trang_thai_tk)&&$trang_thai_tk=="active"?"selected":""}}>Đang làm</option>
+                            <option value="inactive" {{!empty($trang_thai_tk)&&$trang_thai_tk=="inactive"?"selected":""}}>Đã nghỉ việc</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="chuc_vu_tk" class="form-label">Chức vụ</label>
+                        <select class="form-select" name="chuc_vu_tk">
+                            <option value="">Tất cả</option>
+                            @foreach ($chuc_vus as $chuc_vu)
+                                <option value="{{ $chuc_vu->id }}" {{!empty($chuc_vu_tk)&&$chuc_vu_tk==$chuc_vu->id?"selected":""}}>{{ $chuc_vu->ten_chuc_vu }}</option>
+                            @endforeach
                         </select>
                     </div>
 
                     <div class="col-md-4">
-                        <label for="searchNgayVaoLam" class="form-label">Ngày vào làm</label>
-                        <input type="date" class="form-control" id="searchNgayVaoLam">
-                    </div>
-                    <div class="col-md-4">
-                        <label for="searchNgayNghiViec" class="form-label">Ngày nghỉ việc</label>
-                        <input type="date" class="form-control" id="searchNgayNghiViec">
-                    </div>
-                    <div class="col-md-4">
-                        <label for="searchChucVu" class="form-label">Chức vụ</label>
-                        <input type="text" class="form-control" id="searchChucVu" placeholder="Nhập chức vụ">
-                    </div>
-
-                    <div class="col-md-4">
-                        <label for="searchCMND" class="form-label">Số CMND/CCCD</label>
-                        <input type="text" class="form-control" id="searchCMND" placeholder="Nhập số CMND/CCCD">
-                    </div>
-                    <div class="col-md-2">
-                        <label for="searchQuocTich" class="form-label">Quốc tịch</label>
-                        <input type="text" class="form-control" id="searchQuocTich" placeholder="VD: Việt Nam">
-                    </div>
-                    <div class="col-md-2">
-                        <label for="searchDanToc" class="form-label">Dân tộc</label>
-                        <input type="text" class="form-control" id="searchDanToc" placeholder="VD: Kinh">
-                    </div>
-                    <div class="col-md-4">
-                        <label for="searchTonGiao" class="form-label">Tôn giáo</label>
-                        <input type="text" class="form-control" id="searchTonGiao" placeholder="VD: Không">
+                        <label for="cmnd_tk" class="form-label">Số CMND/CCCD</label>
+                        <input type="text" class="form-control" value="{{ !empty($cmnd_tk)?$cmnd_tk:"" }}" name="cmnd_tk" placeholder="Nhập số CMND/CCCD">
                     </div>
 
                 </div>
@@ -90,7 +86,8 @@
             <h4 class="mb-3">Danh sách nhân viên</h4>
             <div class="table-responsive">
                 <table class="table table-hover align-middle"> <thead>
-                        <tr class="table-light"> <th scope="col">ID</th>
+                        <tr class="table-light"> 
+                            <th scope="col">ID</th>
                             <th scope="col">Họ tên</th>
                             <th scope="col">Ca mặc định</th>
                             <th scope="col">Giới tính</th>
@@ -102,79 +99,23 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th scope="row">NV001</th>
-                            <td>Nguyễn Văn A</td>
-                            <td>Hành chính</td>
-                            <td>Nam</td>
-                            <td>2023-01-15</td>
-                            <td>-</td>
-                            <td>Lập trình viên</td>
-                            <td>Việt Nam</td>
-                            <td class="text-center">
-                                <button class="btn btn-sm btn-warning action-btn" title="Sửa">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="btn btn-sm btn-danger action-btn" title="Xóa">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">NV002</th>
-                            <td>Trần Thị B</td>
-                            <td>Ca Sáng</td>
-                            <td>Nữ</td>
-                            <td>2023-03-01</td>
-                            <td>-</td>
-                            <td>Nhân viên Kinh doanh</td>
-                            <td>Việt Nam</td>
-                            <td class="text-center">
-                                <button class="btn btn-sm btn-warning action-btn" title="Sửa">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="btn btn-sm btn-danger action-btn" title="Xóa">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">NV003</th>
-                            <td>Lê Văn C</td>
-                            <td>Ca Chiều</td>
-                            <td>Nam</td>
-                            <td>2022-11-10</td>
-                            <td>2024-12-31</td>
-                            <td>Nhân viên Kho</td>
-                            <td>Việt Nam</td>
-                            <td class="text-center">
-                                <button class="btn btn-sm btn-warning action-btn" title="Sửa">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="btn btn-sm btn-danger action-btn" title="Xóa">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row">NV004</th>
-                            <td>Phạm Thị D</td>
-                            <td>Hành chính</td>
-                            <td>Nữ</td>
-                            <td>2024-02-20</td>
-                            <td>-</td>
-                            <td>Kế toán</td>
-                            <td>Việt Nam</td>
-                            <td class="text-center">
-                                <button class="btn btn-sm btn-warning action-btn" title="Sửa">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="btn btn-sm btn-danger action-btn" title="Xóa">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </td>
-                        </tr>
-
+                        @foreach ($nhan_viens as $nhan_vien)
+                            <tr>
+                                <th scope="row">{{$nhan_vien->id}}</th>
+                                <td>{{$nhan_vien->ho_ten}}</td>
+                                <td>{{!empty($nhan_vien->Ca->ten_ca)?$nhan_vien->Ca->ten_ca:""}}</td>
+                                <td>{{$nhan_vien->gioi_tinh}}</td>
+                                <td>{{$nhan_vien->ngay_vao_lam}}</td>
+                                <td>{{$nhan_vien->ngay_nghi_viec}}</td>
+                                <td>{{$nhan_vien->ChucVu->ten_chuc_vu}}</td>
+                                <td>{{$nhan_vien->quoc_tich}}</td>
+                                <td class="text-center">
+                                    <a class="btn btn-sm btn-warning action-btn" href="{{route('sua_nv',['id' => $nhan_vien->id])}}" title="Sửa">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
