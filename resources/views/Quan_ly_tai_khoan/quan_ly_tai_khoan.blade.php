@@ -83,22 +83,45 @@
                 </table>
             </div>
 
-            <!-- Pagination -->
             <nav aria-label="Page navigation">
                 <ul class="pagination justify-content-center">
+                @if ($tai_khoans->onFirstPage())
                     <li class="page-item disabled">
-                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
+                    <a class="page-link" href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
                     </li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                @else
                     <li class="page-item">
-                        <a class="page-link" href="#">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
+                    <a class="page-link" href="{{ $tai_khoans->previousPageUrl() }}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
                     </li>
+                @endif
+                @foreach ($tai_khoans->getUrlRange(1, $tai_khoans->lastPage()) as $page => $url)
+                    @if ($page == $tai_khoans->currentPage())
+                    <li class="page-item active">
+                        <a class="page-link" href="#">{{ $page }}</a>
+                    </li>
+                    @else
+                    <li class="page-item">
+                        <a class="page-link" href="{{ $url }}">{{ $page }}</a>
+                    </li>
+                    @endif
+                @endforeach
+                @if ($tai_khoans->hasMorePages())
+                    <li class="page-item">
+                    <a class="page-link" href="{{ $tai_khoans->nextPageUrl() }}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                    </li>
+                @else
+                    <li class="page-item disabled">
+                    <a class="page-link" href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                    </li>
+                @endif
                 </ul>
             </nav>
         </div>

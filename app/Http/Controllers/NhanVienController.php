@@ -52,7 +52,7 @@ class NhanVienController extends Controller
             }
             $data['trang_thai_tk'] = $request->trang_thai_tk;
         }
-        $data['nhan_viens'] = $query->orderBy('id')->get();
+        $data['nhan_viens'] = $query->orderBy('id')->paginate(5);
         $data['chuc_vus'] = DMChucVuModel::all();
         $data['cas'] = DMCaModel::all();
         return view('Quan_ly_nhan_vien.quan_ly_nhan_vien',$data);
