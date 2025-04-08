@@ -32,7 +32,7 @@ class HopDongController extends Controller
             $query->where('id_trang_thai',$request->trang_thai_tk);
             $data['trang_thai_tk'] = $request->trang_thai_tk;
         }
-        $data['hop_dongs'] = $query->orderBy('ql_hopdong.id')->get();
+        $data['hop_dongs'] = $query->orderBy('ql_hopdong.id')->paginate(5);
         $data['trang_thais'] = DMTrangThaiHopDongModel::all();
         return view('Quan_ly_hop_dong.quan_ly_hop_dong',$data);
     }

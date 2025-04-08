@@ -26,7 +26,7 @@ class TaiKhoanController extends Controller
             $query = $query->where('id_hoc_sinh', 'like', '%'.$request->ho_ten.'%');
             $data['ho_ten'] = $request->ho_ten;
         }
-        $data['tai_khoans'] = $query->get();
+        $data['tai_khoans'] = $query->paginate(5);
         $data['quyens'] = DMQuyenModel::all();
         $data['count']=0;
         return view('Quan_ly_tai_khoan.quan_ly_tai_khoan',$data);

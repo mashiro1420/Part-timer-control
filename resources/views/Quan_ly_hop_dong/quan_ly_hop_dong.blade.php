@@ -9,19 +9,17 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/ql_hd.css') }}">
 </head>
 <body>
-    <!-- Navbar -->
     @include('components.navbar')
 
     <div class="container">
-        <!-- Search Section -->
         <div class="search-section">
             <h4 class="mb-3">Tìm kiếm hợp đồng</h4>
             <form action="{{ route('ql_hd') }}" method="get">
                 @csrf
                 <div class="row g-3">
                     <div class="col-md-3">
-                        <label for="id_nhan_vien_tk" class="form-label">Mã nhân viên</label>
-                        <input type="text" class="form-control" name="id_nhan_vien_tk" value="{{ !empty($id_nhan_vien_tk)?$id_nhan_vien_tk:"" }}" placeholder="Nhập mã nhân viên">
+                        <label for="id_hop_dong_tk" class="form-label">Mã nhân viên</label>
+                        <input type="text" class="form-control" name="id_hop_dong_tk" value="{{ !empty($id_hop_dong_tk)?$id_hop_dong_tk:"" }}" placeholder="Nhập mã nhân viên">
                     </div>
                     <div class="col-md-3">
                         <label for="tu_ngay_tk" class="form-label">Ngày bắt đầu</label>
@@ -54,8 +52,6 @@
                 </div>
             </form>
         </div>
-
-        <!-- Table Section -->
         <div class="table-section">
             <h4 class="mb-3">Danh sách hợp đồng</h4>
             <div class="table-responsive">
@@ -89,7 +85,7 @@
                           } ?>
                             <tr>
                                 <th scope="row">{{$hop_dong->id_hop_dong}}</th>
-                                <td>{{$hop_dong->id_nhan_vien." - ".$hop_dong->NhanVien->ho_ten}}</td>
+                                <td>{{$hop_dong->id_hop_dong." - ".$hop_dong->NhanVien->ho_ten}}</td>
                                 <td>{{$hop_dong->tu_ngay}}</td>
                                 <td>{{$hop_dong->den_ngay}}</td>
                                 <td><span class="badge badge-{{$badge}}">{{$hop_dong->TrangThai->ten_trang_thai}}</span></td>
@@ -111,23 +107,45 @@
                     </tbody>
                 </table>
             </div>
-
-            <!-- Pagination -->
             <nav aria-label="Page navigation">
                 <ul class="pagination justify-content-center">
+                @if ($hop_dongs->onFirstPage())
                     <li class="page-item disabled">
-                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
+                    <a class="page-link" href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
                     </li>
-                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                @else
                     <li class="page-item">
-                        <a class="page-link" href="#">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
+                    <a class="page-link" href="{{ $hop_dongs->previousPageUrl() }}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
                     </li>
+                @endif
+                @foreach ($hop_dongs->getUrlRange(1, $hop_dongs->lastPage()) as $page => $url)
+                    @if ($page == $hop_dongs->currentPage())
+                    <li class="page-item active">
+                        <a class="page-link" href="#">{{ $page }}</a>
+                    </li>
+                    @else
+                    <li class="page-item">
+                        <a class="page-link" href="{{ $url }}">{{ $page }}</a>
+                    </li>
+                    @endif
+                @endforeach
+                @if ($hop_dongs->hasMorePages())
+                    <li class="page-item">
+                    <a class="page-link" href="{{ $hop_dongs->nextPageUrl() }}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                    </li>
+                @else
+                    <li class="page-item disabled">
+                    <a class="page-link" href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                    </li>
+                @endif
                 </ul>
             </nav>
         </div>
